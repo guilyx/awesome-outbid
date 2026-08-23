@@ -43,15 +43,40 @@ To be listed, a board must **not**:
 - Be a wrapper whose only purpose is to sell a course, a boilerplate, or a
   waitlist.
 
-Open a PR with:
+Add an entry to [`data/boards.yml`](data/boards.yml) — never to the README
+directly. The README tables and the site's board directory are both generated
+from that file, and CI fails if they drift.
 
-```text
-- `example.lol` — one line on what it changed. [live | dead]
+```yaml
+  - name: example.lol
+    url: https://example.lol
+    group: decay          # see the `groups:` block at the top of the file
+    ranks: side projects  # what it ranks, a few words
+    what: >-
+      One or two sentences on the mechanic, in your own words. What did this
+      board change? Why would someone bid here instead of on the original?
+    launched: 2026-08-21  # optional, only if a source states it
+    by: Someone           # optional, only if a source names them
+    sourced: true
 ```
 
-Put it under the group whose *mechanic* it matches, not alphabetically. If it
-does not match any group, that is a good sign — propose a new group and say
-what it is.
+Then run `python3 scripts/build.py` and commit the regenerated README along with
+your data change. `pip install pyyaml markdown` first if you have not.
+
+File it under the group whose *mechanic* it matches, not alphabetically. If it
+matches none of them, that is a good sign — propose a new group in the same PR
+and say what it is.
+
+### `sourced: true` means you have a source
+
+The `sourced` flag is not decoration. It asserts that the description came from
+somewhere — the board's own rules page, a write-up, a post from its creator —
+rather than from guessing at the mechanic from the domain name.
+
+If you know a board exists but cannot describe what it does, add it to
+`named_only` instead. That list exists precisely so the record can be complete
+without anyone inventing mechanics. `scripts/build.py` refuses to build if a
+board sits in `boards:` without `sourced: true`.
 
 ### What listing does not mean
 
@@ -62,9 +87,13 @@ trustworthy, safe, or a good investment; those will be closed.
 
 ### Removing a dead board
 
-Very welcome. Domains in this space go dark fast, and a directory full of
-parked pages is worse than a short one. Mark it dead or drop the entry — either
-is fine, and no justification is needed beyond "it does not resolve."
+Very welcome. Domains in this space go dark fast, and a directory full of parked
+pages is worse than a short one. Drop the entry from `data/boards.yml`, rebuild,
+and open the PR — no justification is needed beyond "it does not resolve."
+
+The weekly [link check](.github/workflows/link-check.yml) opens an issue listing
+dead links rather than failing pull requests, so nobody is ever blocked by
+someone else's expired board.
 
 ## Self-promotion
 
@@ -75,9 +104,18 @@ Say in the PR that it is yours. The bar is the same either way.
 
 - One sentence per idea; short lines. The files are read on phones.
 - Sentence case for headings.
-- `markdownlint` runs in CI. Run it locally with
-  `npx markdownlint-cli2 "**/*.md"`.
 - Relative links between files in this repo, so they work on forks.
+
+Before opening a PR:
+
+```sh
+npx markdownlint-cli2 "**/*.md"          # style
+python3 .github/scripts/check_relative_links.py   # in-repo links and anchors
+python3 scripts/build.py                 # regenerate README + site
+python3 scripts/check_site.py            # site links and anchors
+```
+
+CI runs all four.
 
 ## Code of conduct
 

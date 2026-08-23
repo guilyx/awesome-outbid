@@ -16,18 +16,21 @@ a refund policy written before the first dispute — is not.
 
 This repo is that missing half.
 
+**📖 Read it as a site: <https://guilyx.github.io/awesome-outbid/>**
+— the same content with a searchable, filterable board directory.
+
 ## Contents
 
 - [Start here](#start-here)
 - [Reference implementation](#reference-implementation)
 - [The ten rules](#the-ten-rules)
 - [The original](#the-original)
-- [Directories and trackers](#directories-and-trackers)
-- [Notable boards and variants](#notable-boards-and-variants)
+- [The boards](#the-boards)
 - [Boilerplates and tooling](#boilerplates-and-tooling)
 - [Writeups and analysis](#writeups-and-analysis)
 - [Anti-patterns](#anti-patterns)
 - [Contributing](#contributing)
+- [The site](#the-site)
 - [License](#license)
 
 ## Start here
@@ -99,56 +102,126 @@ imports.
   [supastarter](https://supastarter.dev) boilerplate (Next.js + Postgres) in
   three hours; posted the numbers as they happened.
 
-## Directories and trackers
+## The boards
 
-Meta-layers that emerged within days, and the fastest way to see the current
-state of the genre.
+Grouped by what each one actually changed — the mechanic, the audience, or the
+unit ranked. A different domain is not a variant, which is why clone forty's
+traffic curve is flat.
 
-- [outoutbid.lol](https://outoutbid.lol) — every outbid.lol clone, grouped by
-  what it ranks.
-- [Bidding Arena](https://biddingarena.com/boards) — the largest tracker;
-  hundreds of boards, with which are still live.
-- [outbid.fyi](https://outbid.fyi) — pay-to-rank board index.
-- [outbid-directory.lol](https://outbid-directory.lol) — clone directory,
-  plus a boilerplate.
-- [topple.lol](https://topple.lol) — tracks the live price of the #1 spot on
-  outbid.lol and explains the mechanics.
+Source of truth is [`data/boards.yml`](data/boards.yml); the tables below and the
+[site's board directory](https://guilyx.github.io/awesome-outbid/boards/) are both
+generated from it by `scripts/build.py`, and CI fails if they drift. Browse it
+with search and filters [on the site](https://guilyx.github.io/awesome-outbid/boards/).
 
-## Notable boards and variants
+<!-- BEGIN GENERATED BOARDS -->
 
-The wave stopped being clones fast. These are grouped by *what they changed*,
-because that is the only useful axis — a different domain is not a variant.
+<!-- Generated from data/boards.yml by scripts/build.py. Do not edit by hand. -->
 
-**Pure cumulative bidding** (the original mechanic)
+Snapshot: **2026-08-23** · **29** boards described · **25** named only.
 
-- [overbid.lol](https://www.overbid.lol), rankbid.lol, upbid.lol, outbids.lol
+Compiled from press coverage, the clone directories, and search results indexing X posts from the launch week. x.com itself could not be read directly, so quoted numbers are those the sources report, not figures we measured.
 
-**Inverted auctions** — removes the "richest founder wins" feel
+### The original
 
-- `lowbid.lol` — lowest *unique* bid takes the top. Note the gambling-law
-  caveat in [6. Legal and trust](best-practices/06-legal-and-trust.md#keep-it-deterministic-or-you-may-be-running-a-lottery).
-- `undercut.lol`, `dontbid.lol` — Dutch-style undercutting.
+The board that started it, and its own rulebook.
 
-**Time pressure** — manufactures urgency a static board only has while trending
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [outbid.lol](https://outbid.lol) | products, apps and X profiles | Rank equals total dollars paid, cumulatively. Whole dollars, $5 minimum, $1 increments, $999,999 cap. Nothing expires, nothing is refunded, and taking #1 costs at least $5 more than the current top bid. No accounts, no ads, no revenue share. *by Jonathan Wilke* *(2026-08-19)* |
 
-- `lastspot.lol` — fixed slot count with daily decay.
+### Pure cumulative bidding
 
-**Different unit ranked** — same mechanic, different audience
+The original mechanic, re-domained. Rank is total dollars paid, nothing expires. Also the group with the flattest traffic curves — see guide 07.
 
-- `tweetbid.lol`, `xbid.lol` — X posts and handles.
-- `indiehackers.lol`, `outflex.lol` — people and profiles.
-- `landgrab.lol`, `warmap.lol`, `spots.lol` — territory and map metaphors.
-- `topspot.so` — the non-`.lol` sibling.
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [uprank.lol](https://www.uprank.lol) | websites | Your rank is your lifetime total and anyone can pay a dollar more to take it. The first spot cost $1; each new #1 costs $1 more than the last. |
+| [overbid.lol](https://www.overbid.lol) | products | Overbid everyone and take #1. No ads, no API keys, no revenue share -- the original's positioning, near-verbatim. |
+| [whynotalso.bid](https://whynotalso.bid) | anything | A live leaderboard where you bid real dollars to climb the rankings. |
+| [bidwall.lol](https://bidwall.lol) | companies | Framed as a digital billboard rather than a leaderboard: position is bought, not given. Pay what you like and hold the rank until someone pays more. |
+| [puremoney.lol](https://puremoney.lol) | listings | A permanent pay-to-rank leaderboard — placements do not expire. |
+| [outrank.lol](https://www.outrank.lol) | listings | Pay to be #1. The mechanic with the marketing stripped out. |
+| [outbid-lol.com](https://outbid-lol.com) | listings | Bid your way to the top. Notable mainly as the near-miss domain play on the original. |
 
-**Meta** — boards that rank boards
+### Decay and time pressure
 
-- `biddirectory.lol`, and the trackers above.
+A bid is a balance that drains, so #1 comes back into reach. Converts one-time payments into recurring ones and manufactures the urgency a static board only has while trending.
 
-> **On these links.** This is a snapshot of a genre that moved in days; entries
-> are community-submitted and unverified. Domains in this space go dark
-> quickly, and every one of them takes non-refundable money from strangers.
-> Listing a board here is not an endorsement, a safety check, or advice to
-> bid on it. See [CONTRIBUTING.md](CONTRIBUTING.md) for what gets listed.
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [lastspot.lol](https://lastspot.lol) | products | A 100-slot board where payments set a live value, repeat payments top it up, and every value drops 5% a day. Also maintains an "Outbid & friends" list. |
+| [rankwars.lol](https://rankwars.lol) | sites and X handles | Highest bid wins #1, from $5. The first 24 hours are shielded, then your value decays until someone outbids you — so the war never stops. Outbid or top up to climb. |
+| [topple.lol](https://topple.lol) | products | A bid is a balance that drains with time *and* with every click it earns, so the top spot comes back into reach instead of climbing out of it. Also publishes a live tracker of what #1 on outbid.lol currently costs. |
+
+### Inverted auctions
+
+Lowest unique bid, or undercutting. Removes the richest-founder-wins feel — and can edge into gambling law. See guide 06.
+
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [lowbid.lol](https://lowbid.lol) | products | Lowest unique bid takes the top, Dutch-style undercutting below it. Turns the board into a puzzle and removes the richest-founder-wins feel. Also the variant most likely to be a game of chance in your jurisdiction. |
+
+### Maps and territory
+
+Position becomes a place instead of a row number. Scarcity is built into the geography rather than the price.
+
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [warmap.lol](https://warmap.lol) | companies, by country | Your company colour appears on the world map until someone pays 1.5x to take it from you. No refunds. The multiplier is the whole design. |
+| [mapbid.lol](https://mapbid.lol) | countries | Outbid the competition to claim the #1 sovereign spot in any country on an interactive world map. 190-odd #1 spots instead of one. |
+
+### Different unit ranked
+
+Same mechanic, different audience. The most durable direction, because a niche brings its own buyers.
+
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [xbid.lol](https://xbid.lol) | X accounts | A public leaderboard of X accounts ranked by one thing — how much you have paid to be on it. |
+| [topnewsletters.lol](https://www.topnewsletters.lol) | newsletters | Bid for the inbox. Your amount decides the rank, and paying under the #1 price still places you wherever that bid can reach. |
+| [topseos.lol](https://topseos.lol) | SEO experts, agencies and apps | A pay-to-rank leaderboard for the SEO industry, aimed at its own buyers. |
+| [vibewar.lol](https://vibewar.lol) | vibecoded apps and SaaS | A battlefield for vibecoded apps and SaaS. Founders pay to rank; you outbid them to take their spot. |
+| [pujalo.lol](https://pujalo.lol) | products, LATAM | The LATAM edition — Spanish, and pesos. The clearest example of the one clone direction that reliably works: same mechanic, an audience the original was never going to reach. |
+
+### Other currencies and stunts
+
+Boards where the thing you spend is not a bid, or the thing you win is not a row.
+
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [payluck.lol](https://payluck.lol) | listings | Randomised coupon codes against locked prices on a limited board. Cost is capped and known upfront and your position cannot be outbid — which also means the only variable left is whether the site itself gets any attention. |
+| [outlike.lol](https://www.outlike.lol) | sites | Likes are the only currency — the most-liked announcement tweet holds #1, and listing is free. The one board in the wave that takes no money at all. |
+| [lamborghini.lol](https://lamborghini.lol) | panels on a physical car | SaaS companies buy panel space on a real Lamborghini Urus. Bid $50k, wear a quarter of the car. The mechanic applied to an object rather than a row. |
+
+### Meta — boards and directories of boards
+
+The layer that appeared within days. Absurd, and it worked, because the audience was already assembled.
+
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [outbidstory.lol](https://outbidstory.lol) | the wave itself | A hand-updated live directory of the bid-site wave, which is itself bidding out its own spots. Free to read and independent. |
+| [outbidception.lol](https://www.outbidception.lol) | pay-to-rank leaderboards | A leaderboard of pay-to-rank leaderboards, ranked by how much they pay. |
+| [biddirectory.lol](https://biddirectory.lol) | bid sites | A directory of bidding sites, ranked by bid. *by Damon Chen* |
+| [outbid.fyi](https://outbid.fyi) | clones, by quality | Lists the copycats, cheap clones, ghost towns and weird map ones. Three seats at the top are for sale, on the one rule the genre runs on. |
+| [leadingboards.lol](https://www.leadingboards.lol) | bid-based leaderboards | A directory of bid-based leaderboard sites. Free to list, pay to be featured — the freemium version of the mechanic. |
+| [outoutbid.lol](https://outoutbid.lol) | every outbid.lol clone | Groups the clones by what they rank rather than by bid. |
+| [biddingarena.com](https://biddingarena.com/boards) | boards, live and dead | The largest tracker of the wave, and the only one that says which boards are still up. |
+
+### Named only
+
+Domains named in launch-week roundups with no description we could
+source. Listed so the record is complete; we do not invent mechanics to
+fill the gap. Know one? A sourced description promotes it into the
+tables above — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+`topx.lol`, `tweetbid.lol`, `xme.lol`, `dontbid.lol`, `undercut.lol`, `upbid.lol`, `outbids.lol`, `rankbid.lol`, `bidanything.lol`, `whosetheboss.lol`, `claimrank.lol`, `watchbid.lol`, `takeone.lol`, `spots.lol`, `landgrab.lol`, `bidfast.lol`, `aistartups.lol`, `bidking.lol`, `bidding.lol`, `tinybid.lol`, `iamtherichest.lol`, `indiehackers.lol`, `outflex.lol`, `ranky.lol`, `topspot.so`
+
+> **On these links.** This is a snapshot of a genre that moved in days;
+> entries are community-submitted and unverified. Domains in this space go
+> dark quickly, and every one of them takes non-refundable money from
+> strangers. Listing a board here is not an endorsement, a safety check, or
+> advice to bid on it.
+
+<!-- END GENERATED BOARDS -->
 
 ## Boilerplates and tooling
 
@@ -218,6 +291,21 @@ The genre produced hundreds of boards and almost no honest accounts of what
 happened after week one.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## The site
+
+<https://guilyx.github.io/awesome-outbid/> is built from this repo — no CMS, no
+framework, one stylesheet, no runtime dependencies.
+
+```sh
+pip install pyyaml markdown
+python3 scripts/build.py        # regenerate the README section + build _site/
+python3 scripts/check_site.py   # every internal link and anchor resolves
+python3 -m http.server -d _site 8000
+```
+
+`scripts/build.py --check` is what CI runs: it fails if `data/boards.yml` and the
+README's board tables have drifted, so neither can be edited without the other.
 
 ## Disclaimer
 

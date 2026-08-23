@@ -12,11 +12,22 @@ body:
 
         Nothing in this list is vetted or endorsed. Please do not ask us to
         describe a board as safe, trustworthy, or worth bidding on.
+
+        Faster than an issue: add it to `data/boards.yml`, run
+        `python3 scripts/build.py`, and open a PR. See CONTRIBUTING.md.
   - type: input
     id: url
     attributes:
       label: URL
       placeholder: https://example.lol
+    validations:
+      required: true
+  - type: input
+    id: ranks
+    attributes:
+      label: What does it rank?
+      description: A few words — this becomes the `ranks` field in data/boards.yml.
+      placeholder: side projects, X handles, newsletters…
     validations:
       required: true
   - type: textarea
@@ -25,6 +36,17 @@ body:
       label: What did it change?
       description: The mechanic, the audience, or the unit being ranked. One or two sentences.
       placeholder: Lowest unique bid takes the top, so the board is a puzzle rather than a spending contest.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Where does that description come from?
+      description: >-
+        The board's own rules page, a write-up, a post from its creator. We do not
+        invent mechanics — a board with no sourceable description goes in the
+        `named_only` list instead.
+      placeholder: https://example.lol/rules
     validations:
       required: true
   - type: dropdown

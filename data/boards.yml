@@ -1,0 +1,348 @@
+# The pay-to-rank board wave of August 2026.
+#
+# Single source of truth. The README section and the GitHub Pages site are both
+# generated from this file by scripts/build.py -- edit here, never there.
+#
+# Fields
+#   name      domain, lowercase, no scheme
+#   url       https:// URL
+#   group     one of the groups defined in `groups` below
+#   ranks     what the board ranks, in a few words
+#   what      one or two sentences on the mechanic, in our own words
+#   launched  YYYY-MM-DD, only when a source states it
+#   by        creator, only when a source names them
+#   sourced   true  = a description was found in a cited source
+#             false = the domain was named in a roundup with no description.
+#                     These are listed by name only. We do not invent mechanics.
+#
+# Nothing here is vetted, endorsed, or checked for safety. Every one of these
+# takes non-refundable money from strangers. See CONTRIBUTING.md.
+
+meta:
+  snapshot: 2026-08-23
+  note: >-
+    Compiled from press coverage, the clone directories, and search results
+    indexing X posts from the launch week. x.com itself could not be read
+    directly, so quoted numbers are those the sources report, not figures we
+    measured.
+
+groups:
+  - id: original
+    title: The original
+    blurb: The board that started it, and its own rulebook.
+  - id: cumulative
+    title: Pure cumulative bidding
+    blurb: >-
+      The original mechanic, re-domained. Rank is total dollars paid, nothing
+      expires. Also the group with the flattest traffic curves — see guide 07.
+  - id: decay
+    title: Decay and time pressure
+    blurb: >-
+      A bid is a balance that drains, so #1 comes back into reach. Converts
+      one-time payments into recurring ones and manufactures the urgency a
+      static board only has while trending.
+  - id: inverted
+    title: Inverted auctions
+    blurb: >-
+      Lowest unique bid, or undercutting. Removes the richest-founder-wins feel
+      — and can edge into gambling law. See guide 06.
+  - id: map
+    title: Maps and territory
+    blurb: >-
+      Position becomes a place instead of a row number. Scarcity is built into
+      the geography rather than the price.
+  - id: niche
+    title: Different unit ranked
+    blurb: >-
+      Same mechanic, different audience. The most durable direction, because a
+      niche brings its own buyers.
+  - id: other
+    title: Other currencies and stunts
+    blurb: >-
+      Boards where the thing you spend is not a bid, or the thing you win is
+      not a row.
+  - id: meta
+    title: Meta — boards and directories of boards
+    blurb: >-
+      The layer that appeared within days. Absurd, and it worked, because the
+      audience was already assembled.
+
+boards:
+  # -- original ---------------------------------------------------------------
+  - name: outbid.lol
+    url: https://outbid.lol
+    group: original
+    ranks: products, apps and X profiles
+    what: >-
+      Rank equals total dollars paid, cumulatively. Whole dollars, $5 minimum,
+      $1 increments, $999,999 cap. Nothing expires, nothing is refunded, and
+      taking #1 costs at least $5 more than the current top bid. No accounts,
+      no ads, no revenue share.
+    launched: 2026-08-19
+    by: Jonathan Wilke
+    sourced: true
+
+  # -- cumulative -------------------------------------------------------------
+  - name: uprank.lol
+    url: https://www.uprank.lol
+    group: cumulative
+    ranks: websites
+    what: >-
+      Your rank is your lifetime total and anyone can pay a dollar more to take
+      it. The first spot cost $1; each new #1 costs $1 more than the last.
+    sourced: true
+  - name: overbid.lol
+    url: https://www.overbid.lol
+    group: cumulative
+    ranks: products
+    what: >-
+      Overbid everyone and take #1. No ads, no API keys, no revenue share --
+      the original's positioning, near-verbatim.
+    sourced: true
+  - name: whynotalso.bid
+    url: https://whynotalso.bid
+    group: cumulative
+    ranks: anything
+    what: A live leaderboard where you bid real dollars to climb the rankings.
+    sourced: true
+  - name: bidwall.lol
+    url: https://bidwall.lol
+    group: cumulative
+    ranks: companies
+    what: >-
+      Framed as a digital billboard rather than a leaderboard: position is
+      bought, not given. Pay what you like and hold the rank until someone
+      pays more.
+    sourced: true
+  - name: puremoney.lol
+    url: https://puremoney.lol
+    group: cumulative
+    ranks: listings
+    what: A permanent pay-to-rank leaderboard — placements do not expire.
+    sourced: true
+  - name: outrank.lol
+    url: https://www.outrank.lol
+    group: cumulative
+    ranks: listings
+    what: "Pay to be #1. The mechanic with the marketing stripped out."
+    sourced: true
+  - name: outbid-lol.com
+    url: https://outbid-lol.com
+    group: cumulative
+    ranks: listings
+    what: >-
+      Bid your way to the top. Notable mainly as the near-miss domain play on
+      the original.
+    sourced: true
+
+  # -- decay ------------------------------------------------------------------
+  - name: lastspot.lol
+    url: https://lastspot.lol
+    group: decay
+    ranks: products
+    what: >-
+      A 100-slot board where payments set a live value, repeat payments top it
+      up, and every value drops 5% a day. Also maintains an "Outbid & friends"
+      list.
+    sourced: true
+  - name: rankwars.lol
+    url: https://rankwars.lol
+    group: decay
+    ranks: sites and X handles
+    what: >-
+      Highest bid wins #1, from $5. The first 24 hours are shielded, then your
+      value decays until someone outbids you — so the war never stops. Outbid
+      or top up to climb.
+    sourced: true
+  - name: topple.lol
+    url: https://topple.lol
+    group: decay
+    ranks: products
+    what: >-
+      A bid is a balance that drains with time *and* with every click it earns,
+      so the top spot comes back into reach instead of climbing out of it. Also
+      publishes a live tracker of what #1 on outbid.lol currently costs.
+    sourced: true
+
+  # -- inverted ---------------------------------------------------------------
+  - name: lowbid.lol
+    url: https://lowbid.lol
+    group: inverted
+    ranks: products
+    what: >-
+      Lowest unique bid takes the top, Dutch-style undercutting below it. Turns
+      the board into a puzzle and removes the richest-founder-wins feel. Also
+      the variant most likely to be a game of chance in your jurisdiction.
+    sourced: true
+
+  # -- map --------------------------------------------------------------------
+  - name: warmap.lol
+    url: https://warmap.lol
+    group: map
+    ranks: companies, by country
+    what: >-
+      Your company colour appears on the world map until someone pays 1.5x to
+      take it from you. No refunds. The multiplier is the whole design.
+    sourced: true
+  - name: mapbid.lol
+    url: https://mapbid.lol
+    group: map
+    ranks: countries
+    what: >-
+      Outbid the competition to claim the #1 sovereign spot in any country on
+      an interactive world map. 190-odd #1 spots instead of one.
+    sourced: true
+
+  # -- niche ------------------------------------------------------------------
+  - name: xbid.lol
+    url: https://xbid.lol
+    group: niche
+    ranks: X accounts
+    what: >-
+      A public leaderboard of X accounts ranked by one thing — how much you
+      have paid to be on it.
+    sourced: true
+  - name: topnewsletters.lol
+    url: https://www.topnewsletters.lol
+    group: niche
+    ranks: newsletters
+    what: >-
+      Bid for the inbox. Your amount decides the rank, and paying under the #1
+      price still places you wherever that bid can reach.
+    sourced: true
+  - name: topseos.lol
+    url: https://topseos.lol
+    group: niche
+    ranks: SEO experts, agencies and apps
+    what: A pay-to-rank leaderboard for the SEO industry, aimed at its own buyers.
+    sourced: true
+  - name: vibewar.lol
+    url: https://vibewar.lol
+    group: niche
+    ranks: vibecoded apps and SaaS
+    what: >-
+      A battlefield for vibecoded apps and SaaS. Founders pay to rank; you
+      outbid them to take their spot.
+    sourced: true
+  - name: pujalo.lol
+    url: https://pujalo.lol
+    group: niche
+    ranks: products, LATAM
+    what: >-
+      The LATAM edition — Spanish, and pesos. The clearest example of the one
+      clone direction that reliably works: same mechanic, an audience the
+      original was never going to reach.
+    sourced: true
+
+  # -- other ------------------------------------------------------------------
+  - name: payluck.lol
+    url: https://payluck.lol
+    group: other
+    ranks: listings
+    what: >-
+      Randomised coupon codes against locked prices on a limited board. Cost is
+      capped and known upfront and your position cannot be outbid — which
+      also means the only variable left is whether the site itself gets any
+      attention.
+    sourced: true
+  - name: outlike.lol
+    url: https://www.outlike.lol
+    group: other
+    ranks: sites
+    what: >-
+      Likes are the only currency — the most-liked announcement tweet holds
+      #1, and listing is free. The one board in the wave that takes no money at
+      all.
+    sourced: true
+  - name: lamborghini.lol
+    url: https://lamborghini.lol
+    group: other
+    ranks: panels on a physical car
+    what: >-
+      SaaS companies buy panel space on a real Lamborghini Urus. Bid $50k, wear
+      a quarter of the car. The mechanic applied to an object rather than a row.
+    sourced: true
+
+  # -- meta -------------------------------------------------------------------
+  - name: outbidstory.lol
+    url: https://outbidstory.lol
+    group: meta
+    ranks: the wave itself
+    what: >-
+      A hand-updated live directory of the bid-site wave, which is itself
+      bidding out its own spots. Free to read and independent.
+    sourced: true
+  - name: outbidception.lol
+    url: https://www.outbidception.lol
+    group: meta
+    ranks: pay-to-rank leaderboards
+    what: A leaderboard of pay-to-rank leaderboards, ranked by how much they pay.
+    sourced: true
+  - name: biddirectory.lol
+    url: https://biddirectory.lol
+    group: meta
+    ranks: bid sites
+    what: A directory of bidding sites, ranked by bid.
+    by: Damon Chen
+    sourced: true
+  - name: outbid.fyi
+    url: https://outbid.fyi
+    group: meta
+    ranks: clones, by quality
+    what: >-
+      Lists the copycats, cheap clones, ghost towns and weird map ones. Three
+      seats at the top are for sale, on the one rule the genre runs on.
+    sourced: true
+  - name: leadingboards.lol
+    url: https://www.leadingboards.lol
+    group: meta
+    ranks: bid-based leaderboards
+    what: >-
+      A directory of bid-based leaderboard sites. Free to list, pay to be
+      featured — the freemium version of the mechanic.
+    sourced: true
+  - name: outoutbid.lol
+    url: https://outoutbid.lol
+    group: meta
+    ranks: every outbid.lol clone
+    what: Groups the clones by what they rank rather than by bid.
+    sourced: true
+  - name: biddingarena.com
+    url: https://biddingarena.com/boards
+    group: meta
+    ranks: boards, live and dead
+    what: >-
+      The largest tracker of the wave, and the only one that says which boards
+      are still up.
+    sourced: true
+
+# Named in launch-week roundups with no description we could source. Listed by
+# name so the record is complete; we do not invent mechanics to fill the gap.
+# If you know one of these, see CONTRIBUTING.md -- a sourced description
+# promotes it into `boards` above.
+named_only:
+  - topx.lol
+  - tweetbid.lol
+  - xme.lol
+  - dontbid.lol
+  - undercut.lol
+  - upbid.lol
+  - outbids.lol
+  - rankbid.lol
+  - bidanything.lol
+  - whosetheboss.lol
+  - claimrank.lol
+  - watchbid.lol
+  - takeone.lol
+  - spots.lol
+  - landgrab.lol
+  - bidfast.lol
+  - aistartups.lol
+  - bidking.lol
+  - bidding.lol
+  - tinybid.lol
+  - iamtherichest.lol
+  - indiehackers.lol
+  - outflex.lol
+  - ranky.lol
+  - topspot.so

@@ -20,7 +20,9 @@
 - [ ] It has a contact address
 - [ ] Amounts and click counts shown on it are real
 - [ ] It does not rank people who cannot remove themselves
-- [ ] It is filed under the group matching its mechanic
+- [ ] Filed in `data/boards.yml` (not the README directly), under the group matching its mechanic
+- [ ] `sourced: true` only where a real source describes the mechanic; otherwise `named_only`
+- [ ] Ran `python3 scripts/build.py` and committed the regenerated README
 - [ ] Disclosed above if the board is mine
 
 ## For guide or reference changes
@@ -32,4 +34,6 @@
 ## Checks
 
 - [ ] `npx markdownlint-cli2 "**/*.md"` passes
-- [ ] Relative links resolve (`python3 .github/scripts/check_relative_links.py`)
+- [ ] `python3 .github/scripts/check_relative_links.py` passes
+- [ ] `python3 scripts/build.py --check` passes (README in sync with `data/boards.yml`)
+- [ ] `python3 scripts/build.py && python3 scripts/check_site.py` passes
