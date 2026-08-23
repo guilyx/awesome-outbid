@@ -1,0 +1,64 @@
+name: Add a board
+description: Suggest a pay-to-rank board for the list
+title: "[board] "
+labels: ["board"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The list is a snapshot of a genre that moves in days, so entries earn
+        their place by being *interesting*, not by existing. A cumulative-bid
+        board on a new domain is not a variant and will be closed.
+
+        Nothing in this list is vetted or endorsed. Please do not ask us to
+        describe a board as safe, trustworthy, or worth bidding on.
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      placeholder: https://example.lol
+    validations:
+      required: true
+  - type: textarea
+    id: whats-different
+    attributes:
+      label: What did it change?
+      description: The mechanic, the audience, or the unit being ranked. One or two sentences.
+      placeholder: Lowest unique bid takes the top, so the board is a puzzle rather than a spending contest.
+    validations:
+      required: true
+  - type: dropdown
+    id: group
+    attributes:
+      label: Which group does it belong in?
+      options:
+        - Pure cumulative bidding
+        - Inverted auction (lowest unique / undercut)
+        - Time pressure (slots, decay, expiry)
+        - Different unit ranked
+        - Meta (boards that rank boards)
+        - Something else — described below
+    validations:
+      required: true
+  - type: checkboxes
+    id: requirements
+    attributes:
+      label: Requirements
+      options:
+        - label: The board is live and reachable right now
+          required: true
+        - label: Its rules and refund policy are published somewhere public
+          required: true
+        - label: It has a contact address
+          required: true
+        - label: Bid amounts, click counts and traffic figures shown on it are real
+          required: true
+        - label: It does not rank people who cannot remove themselves
+          required: true
+  - type: checkboxes
+    id: disclosure
+    attributes:
+      label: Disclosure
+      options:
+        - label: This board is mine (self-promotion is fine — the bar is the same)
+          required: false

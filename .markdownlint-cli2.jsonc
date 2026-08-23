@@ -1,0 +1,18 @@
+{
+  "config": {
+    // Prose is wrapped by hand at ~80 cols, but tables and links exceed it.
+    "MD013": false,
+    // Duplicate headings are fine across files and across sections.
+    "MD024": { "siblings_only": true },
+    // Badges and the occasional <br> in tables.
+    "MD033": false,
+    // Bare URLs never appear; this rule mostly fires on code samples.
+    "MD034": false,
+    // The README's first line is a heading with a badge, which MD041 accepts,
+    // but the emphasis-as-heading rule fires on the variant group labels.
+    "MD036": false
+  },
+  "globs": ["**/*.md"],
+  // PR templates conventionally start at h2, so MD041 does not apply.
+  "ignores": ["node_modules", ".github/ISSUE_TEMPLATE", ".github/pull_request_template.md"]
+}

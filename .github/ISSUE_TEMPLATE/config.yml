@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Read the best practices first
+    url: https://github.com/guilyx/awesome-outbid/tree/main/best-practices
+    about: Most "how do I handle X" questions are already answered in one of the eight guides.

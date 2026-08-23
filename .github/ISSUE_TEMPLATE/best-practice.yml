@@ -1,0 +1,40 @@
+name: Best practice or correction
+description: Something that bit you in production, or something here that is wrong
+title: "[bp] "
+labels: ["best-practice"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The bar is **"this bit someone, in production, on a board taking real
+        money."** Preferences are not best practices.
+  - type: textarea
+    id: failure
+    attributes:
+      label: What went wrong?
+      description: The concrete failure, not the preference.
+      placeholder: |
+        We validated "your bid must beat #1" when creating the Checkout Session.
+        During the launch spike, three people paid amounts that were no longer
+        top by the time the webhook landed.
+    validations:
+      required: true
+  - type: textarea
+    id: cost
+    attributes:
+      label: What did it cost?
+      description: Lost money, a free rank, an outage, a dispute, a takedown you could not perform.
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: The fix
+      description: Code welcome. Postgres and Stripe preferred, since that is what the genre runs on.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Which file should this land in?
+      placeholder: best-practices/02-payments.md
