@@ -1,0 +1,39 @@
+name: Post-mortem
+description: You ran a board. Tell us what happened after week one.
+title: "[post-mortem] "
+labels: ["post-mortem"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The most valuable thing you can contribute. Hundreds of boards launched
+        in August 2026 and almost nobody wrote up week four. Unflattering ones
+        are especially welcome.
+  - type: input
+    id: board
+    attributes:
+      label: The board
+      placeholder: example.lol — ranked open-source projects, live 21 Aug – 30 Sep 2026
+    validations:
+      required: true
+  - type: textarea
+    id: numbers
+    attributes:
+      label: The numbers
+      description: Traffic curve with dates, revenue by day, decay rate, dispute rate. Round or redact freely.
+    validations:
+      required: true
+  - type: textarea
+    id: broke
+    attributes:
+      label: What broke
+      description: Under load, in payments, in moderation. Including things you got away with.
+  - type: textarea
+    id: differently
+    attributes:
+      label: What you would do differently
+  - type: textarea
+    id: endgame
+    attributes:
+      label: How it ended
+      description: Sunset, sold, converted, or still running.

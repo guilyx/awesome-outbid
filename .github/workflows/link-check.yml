@@ -1,0 +1,42 @@
+name: link check
+
+# Boards in this genre go dark fast. This runs weekly and opens an issue
+# rather than failing pull requests, because a contributor should never be
+# blocked by someone else's expired domain.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        continue-on-error: true
+        with:
+          args: >-
+            --no-progress
+            --max-retries 2
+            --timeout 20
+            --accept 200,206,301,302,403,429
+            --exclude-path node_modules
+            './**/*.md'
+          output: ./lychee/out.md
+          fail: false
+
+      - name: Open an issue for dead links
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Dead links in the board list
+          content-filepath: ./lychee/out.md
+          labels: dead-link, help wanted
