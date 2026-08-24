@@ -1,0 +1,74 @@
+name: regenerate
+
+# data/boards.yml is the source of truth; the README's board tables are built
+# from it. Rather than failing a contributor's pull request because a generated
+# file is stale, regenerate it here after the merge lands.
+#
+# Note: a push made with the default GITHUB_TOKEN does not trigger further
+# workflow runs, so the commit this makes cannot loop back into this workflow.
+# README.md is also outside pages.yml's path filter, so it does not redeploy
+# the site either.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'scripts/build.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Never run two of these at once — both would try to push to main.
+concurrency:
+  group: regenerate-main
+  cancel-in-progress: false
+
+jobs:
+  readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Check out the branch itself, not the detached commit, so we can push.
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install --quiet pyyaml markdown
+
+      - name: Regenerate the README board tables
+        run: python3 scripts/build.py --readme-only
+
+      - name: Commit and push if anything changed
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- README.md; then
+            echo "README board tables already match data/boards.yml — nothing to do."
+            exit 0
+          fi
+
+          echo "Board tables changed:"
+          git --no-pager diff --stat -- README.md
+
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m 'docs: regenerate board tables from data/boards.yml'
+
+          # main can move while this runs (a second merge, or a manual push).
+          # Rebase onto it and retry rather than failing the run.
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "Attempt $attempt failed; retrying."
+            sleep $((attempt * 5))
+          done
+
+          echo "::error::Could not push the regenerated README after 3 attempts."
+          exit 1
