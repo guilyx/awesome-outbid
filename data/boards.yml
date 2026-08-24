@@ -224,6 +224,18 @@ boards:
       A battlefield for vibecoded apps and SaaS. Founders pay to rank; you
       outbid them to take their spot.
     sourced: true
+  - name: topless.lol
+    url: https://topless.lol
+    group: niche
+    ranks: adult creator links
+    what: >-
+      The adult-creator edition — OnlyFans, Fansly and fan-page links instead of
+      startups. Two things differ from the original: every rank is a distinct
+      dollar amount, so a bid that is already taken is refused rather than
+      tie-broken by timestamp, and the board is quoted in USD while Brazilian
+      buyers are charged in BRL at a fixed rate.
+    launched: 2026-08-24
+    sourced: true
   - name: pujalo.lol
     url: https://pujalo.lol
     group: niche
