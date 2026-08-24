@@ -235,6 +235,7 @@ boards:
       tie-broken by timestamp, and the board is quoted in USD while Brazilian
       buyers are charged in BRL at a fixed rate.
     launched: 2026-08-24
+    nsfw: true
     sourced: true
   - name: pujalo.lol
     url: https://pujalo.lol
