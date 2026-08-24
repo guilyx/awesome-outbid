@@ -64,6 +64,13 @@ groups:
     blurb: >-
       Boards where the thing you spend is not a bid, or the thing you win is
       not a row.
+  - id: earned
+    title: Earned multipliers
+    blurb: >-
+      Money sets the floor and referred visitors multiply it, so a small
+      payment that brings an audience outranks a large one that brings none.
+      The only direction where the listings themselves supply the board's
+      traffic rather than the operator having to.
   - id: meta
     title: Meta — boards and directories of boards
     blurb: >-
@@ -317,6 +324,20 @@ boards:
     what: >-
       The largest tracker of the wave, and the only one that says which boards
       are still up.
+    sourced: true
+
+  # -- earned ------------------------------------------------------------------
+  - name: outnumber.lol
+    url: https://outnumber.lol
+    group: earned
+    ranks: products, apps and X profiles
+    what: >-
+      Rank is the amount paid multiplied by the unique visitors the listing
+      itself referred, so $10 that brought 200 people outranks $25 that brought
+      nobody. Every 100 referred visitors adds 1x, capped at 3x, and money alone
+      cannot reach the top. A visitor counts once per listing forever, crawlers
+      and link previews never count, and a listing can bank at most 250 a day.
+    launched: 2026-08-24
     sourced: true
 
 # Named in launch-week roundups with no description we could source. Listed by
