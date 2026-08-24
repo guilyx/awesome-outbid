@@ -36,6 +36,18 @@ To be listed, a board should:
 - State its rules and its refund policy somewhere public.
 - Have a contact address.
 
+### Adult-industry boards
+
+They are listed, and they are marked. The wave produced real adult-creator
+boards with mechanics worth recording, and leaving them out would make the
+directory a less accurate account of what happened. Set `nsfw: true` on the
+entry and the README table and the site both render an **NSFW** marker before
+the link, so nobody opens one unwarned.
+
+The consent rule below applies with more force here than anywhere else: a board
+that lists creators who did not put themselves there, and cannot get themselves
+removed, does not belong in this list whatever its mechanic.
+
 To be listed, a board must **not**:
 
 - Fabricate bid amounts, click counts, or traffic figures.
@@ -57,6 +69,7 @@ from that file, and CI fails if they drift.
       board change? Why would someone bid here instead of on the original?
     launched: 2026-08-21  # optional, only if a source states it
     by: Someone           # optional, only if a source names them
+    nsfw: true            # optional, only if the board carries adult content
     sourced: true
 ```
 

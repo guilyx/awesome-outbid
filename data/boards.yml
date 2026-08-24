@@ -11,6 +11,9 @@
 #   what      one or two sentences on the mechanic, in our own words
 #   launched  YYYY-MM-DD, only when a source states it
 #   by        creator, only when a source names them
+#   nsfw      true if the board itself carries adult content. Optional; leave
+#             it out otherwise. Renders an NSFW marker before the link, so a
+#             reader sees it before clicking.
 #   sourced   true  = a description was found in a cited source
 #             false = the domain was named in a roundup with no description.
 #                     These are listed by name only. We do not invent mechanics.
