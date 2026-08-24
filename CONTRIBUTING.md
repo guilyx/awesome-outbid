@@ -60,8 +60,20 @@ from that file, and CI fails if they drift.
     sourced: true
 ```
 
-Then run `python3 scripts/build.py` and commit the regenerated README along with
-your data change. `pip install pyyaml markdown` first if you have not.
+That is the whole change. **You do not need to touch the README** — CI
+regenerates its board tables from this file after your pull request merges, and
+your PR's job summary shows you the exact rows it will add, so a reviewer can
+check the wording without either of you running anything.
+
+If you would rather see it locally first:
+
+```sh
+pip install pyyaml markdown
+python3 scripts/build.py     # rewrites the README section, builds _site/
+```
+
+Committing that regenerated README is fine but not required — CI arrives at the
+same result either way.
 
 File it under the group whose *mechanic* it matches, not alphabetically. If it
 matches none of them, that is a good sign — propose a new group in the same PR
@@ -106,16 +118,18 @@ Say in the PR that it is yours. The bar is the same either way.
 - Sentence case for headings.
 - Relative links between files in this repo, so they work on forks.
 
-Before opening a PR:
+Adding a board needs none of this — edit `data/boards.yml` and open the PR.
+For everything else, CI runs:
 
 ```sh
-npx markdownlint-cli2 "**/*.md"          # style
-python3 .github/scripts/check_relative_links.py   # in-repo links and anchors
-python3 scripts/build.py                 # regenerate README + site
-python3 scripts/check_site.py            # site links and anchors
+npx markdownlint-cli2 "**/*.md"                    # style
+python3 .github/scripts/check_relative_links.py    # in-repo links and anchors
+python3 scripts/build.py --site-only               # build, and validate boards.yml
+python3 scripts/check_site.py                      # site links and anchors
 ```
 
-CI runs all four.
+Run them locally if you want a faster loop (`pip install pyyaml markdown` for
+the last two).
 
 ## Code of conduct
 

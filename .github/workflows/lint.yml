@@ -38,13 +38,44 @@ jobs:
           python-version: '3.11'
       - run: pip install --quiet pyyaml markdown
 
-      # data/boards.yml is the source of truth for the README's board section.
-      # This fails if someone edited one without regenerating the other.
-      - name: README board section is in sync with data/boards.yml
-        run: python3 scripts/build.py --check
-
+      # Deliberately NOT a --check gate. Contributors edit data/boards.yml and
+      # nothing else; regenerate.yml rewrites the README on main after merge.
+      # Failing a fork PR because a generated file is stale would mean asking a
+      # drive-by contributor to install Python deps to fix a file they never
+      # touched.
+      #
+      # Building the site still validates the data: build.py's load() rejects an
+      # unknown group, and a board in `boards:` without `sourced: true`.
       - name: Build site
         run: python3 scripts/build.py --site-only
 
       - name: Check internal links and anchors
         run: python3 scripts/check_site.py
+
+      # So a reviewer can see the rendered table rows without checking the
+      # branch out, and without the contributor running anything.
+      - name: Preview the README changes this will produce
+        if: always()
+        run: |
+          # if: always() — so a data error above still gets a readable summary
+          # rather than a second, more confusing failure here.
+          if ! python3 scripts/build.py --readme-only; then
+            echo '## README board tables' >> "$GITHUB_STEP_SUMMARY"
+            echo >> "$GITHUB_STEP_SUMMARY"
+            echo 'Build failed — see the job log. No preview available.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          {
+            echo '## README board tables'
+            if git diff --quiet -- README.md; then
+              echo
+              echo 'No change — `data/boards.yml` did not affect the rendered tables.'
+            else
+              echo
+              echo 'On merge, `regenerate.yml` will commit this to `README.md`:'
+              echo
+              echo '```diff'
+              git --no-pager diff --no-color -U2 -- README.md
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

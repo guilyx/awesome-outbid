@@ -304,8 +304,20 @@ python3 scripts/check_site.py   # every internal link and anchor resolves
 python3 -m http.server -d _site 8000
 ```
 
-`scripts/build.py --check` is what CI runs: it fails if `data/boards.yml` and the
-README's board tables have drifted, so neither can be edited without the other.
+### Adding a board is one file
+
+Edit [`data/boards.yml`](data/boards.yml) and open the PR. Nothing else:
+
+| | |
+| --- | --- |
+| **The site** | Rebuilt and deployed from `data/` on every merge to `main`. |
+| **The README tables** | Regenerated on `main` after merge by [`regenerate.yml`](.github/workflows/regenerate.yml), which commits the result. |
+| **Your PR** | The `site build` job summary previews the exact rows your entry will add, so a reviewer can check the wording without checking the branch out. |
+
+Generated files are never a merge gate here — failing a fork PR because a file
+the contributor did not touch is stale would just mean asking them to install
+Python to fix it. The PR still validates the data itself: `build.py` rejects an
+unknown group, or a board in `boards:` without `sourced: true`.
 
 ## Disclaimer
 

@@ -5,9 +5,14 @@ data/boards.yml is the single source of truth. This script renders it into
 both the README (between generated markers) and the static site, so the two
 can never drift.
 
-    python3 scripts/build.py            # write README section + build _site/
-    python3 scripts/build.py --check    # fail if the README is out of date
-    python3 scripts/build.py --site-only
+    python3 scripts/build.py               # write README section + build _site/
+    python3 scripts/build.py --check       # exit 1 if the README is out of date
+    python3 scripts/build.py --site-only   # build _site/ only
+    python3 scripts/build.py --readme-only # rewrite the README section only
+
+In CI the README is regenerated automatically on main by
+.github/workflows/regenerate.yml, so contributors only ever edit
+data/boards.yml.
 """
 
 from __future__ import annotations
@@ -146,7 +151,11 @@ def sync_readme(data: dict, check: bool) -> bool:
         print("README board section is up to date")
         return True
     if check:
-        print("::error file=README.md::board section is stale — run scripts/build.py", file=sys.stderr)
+        print(
+            "::error file=README.md::board section is stale. Run: "
+            "pip install pyyaml markdown && python3 scripts/build.py",
+            file=sys.stderr,
+        )
         return False
     readme.write_text(updated, encoding="utf-8")
     print("README board section rewritten")
@@ -616,22 +625,33 @@ def build_site(data: dict, base: str) -> None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--check", action="store_true", help="fail if the README is stale")
-    ap.add_argument("--site-only", action="store_true")
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument(
+        "--check",
+        action="store_true",
+        help="do not write; exit 1 if the README board section is stale",
+    )
+    ap.add_argument("--site-only", action="store_true", help="build _site/, leave the README alone")
+    ap.add_argument(
+        "--readme-only",
+        action="store_true",
+        help="rewrite the README board section, skip the site build",
+    )
     ap.add_argument("--base", default="/awesome-outbid", help="site base path")
     args = ap.parse_args()
 
+    if args.site_only and args.readme_only:
+        ap.error("--site-only and --readme-only are mutually exclusive")
+
     data = load()
-    base = args.base.rstrip("/")
 
     if not args.site_only:
         if not sync_readme(data, args.check):
             return 1
-    if args.check:
+    if args.check or args.readme_only:
         return 0
 
-    build_site(data, base)
+    build_site(data, args.base.rstrip("/"))
     return 0
 
 
