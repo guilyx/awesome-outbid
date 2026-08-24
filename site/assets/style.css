@@ -13,6 +13,9 @@
   --warn-bg: #fdf6e7;
   --warn-line: #e8d9ae;
   --code-bg: #f2efe9;
+  --nsfw-bg: #fbe9e7;
+  --nsfw-ink: #8c2f16;
+  --nsfw-line: #efc9bf;
   --radius: 10px;
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto, sans-serif;
@@ -32,6 +35,9 @@
     --warn-bg: #241d10;
     --warn-line: #4a3c20;
     --code-bg: #1c1a16;
+    --nsfw-bg: #3a1c12;
+    --nsfw-ink: #ffb99e;
+    --nsfw-line: #5c2e1d;
   }
 }
 
@@ -48,6 +54,9 @@
   --warn-bg: #241d10;
   --warn-line: #4a3c20;
   --code-bg: #1c1a16;
+  --nsfw-bg: #3a1c12;
+  --nsfw-ink: #ffb99e;
+  --nsfw-line: #5c2e1d;
 }
 
 * { box-sizing: border-box; }
@@ -195,6 +204,15 @@ section > h2 { font-size: 24px; margin: 0 0 8px; letter-spacing: -0.015em; }
 .board h3 { margin: 0; font-size: 16px; font-family: var(--mono); letter-spacing: -0.01em; }
 .board h3 a { text-decoration: none; }
 .board h3 a:hover { text-decoration: underline; }
+.nsfw {
+  display: inline-block; vertical-align: 1px;
+  font-family: var(--sans); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.05em; line-height: 1;
+  padding: 3px 5px; border-radius: 4px;
+  background: var(--nsfw-bg); color: var(--nsfw-ink);
+  border: 1px solid var(--nsfw-line);
+}
+
 .ranks { margin: 4px 0 8px; font-size: 13px; color: var(--ink-3); }
 .what { margin: 0; font-size: 14.5px; color: var(--ink-2); }
 .board .meta { margin: 8px 0 0; font-size: 12.5px; color: var(--ink-3); font-family: var(--mono); }

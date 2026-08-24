@@ -73,6 +73,11 @@ def load() -> dict:
                 f"boards.yml: {board['name']} is in `boards` but not sourced. "
                 "Undescribed domains belong in `named_only`."
             )
+        if "nsfw" in board and not isinstance(board["nsfw"], bool):
+            raise SystemExit(
+                f"boards.yml: {board['name']} has a non-boolean `nsfw`. "
+                "Use `nsfw: true`, or leave the field out."
+            )
     return data
 
 
@@ -111,8 +116,11 @@ def render_readme_section(data: dict) -> str:
                 extra += f" *by {b['by']}*"
             if b.get("launched"):
                 extra += f" *({b['launched']})*"
+            # The marker goes before the link, so it is visible in the cell
+            # before anyone clicks -- that is the entire point of it.
+            badge = "**NSFW** " if b.get("nsfw") else ""
             lines.append(
-                f"| [{b['name']}]({b['url']}) | {b['ranks']} | {tidy(b['what'])}{extra} |"
+                f"| {badge}[{b['name']}]({b['url']}) | {b['ranks']} | {tidy(b['what'])}{extra} |"
             )
         lines.append("")
 
@@ -283,8 +291,12 @@ def board_card(b: dict) -> str:
     if b.get("by"):
         meta.append("by " + html.escape(b["by"]))
     meta_html = f'<p class="meta">{" · ".join(meta)}</p>' if meta else ""
-    return f"""<article class="board" data-group="{b['group']}" data-name="{html.escape(b['name'])}" data-text="{html.escape((b['name'] + ' ' + b['ranks'] + ' ' + tidy(b['what'])).lower())}">
-  <h3><a href="{html.escape(b['url'])}" rel="nofollow ugc noopener" target="_blank">{html.escape(b['name'])}</a></h3>
+    nsfw = bool(b.get("nsfw"))
+    badge = '<span class="nsfw" title="Adult content">NSFW</span> ' if nsfw else ""
+    # "nsfw" joins the haystack so the filter box can find (or exclude) them.
+    haystack = (b["name"] + " " + b["ranks"] + " " + tidy(b["what"]) + (" nsfw adult" if nsfw else "")).lower()
+    return f"""<article class="board{' is-nsfw' if nsfw else ''}" data-group="{b['group']}" data-name="{html.escape(b['name'])}" data-text="{html.escape(haystack)}">
+  <h3>{badge}<a href="{html.escape(b['url'])}" rel="nofollow ugc noopener" target="_blank">{html.escape(b['name'])}</a></h3>
   <p class="ranks">ranks {html.escape(b['ranks'])}</p>
   <p class="what">{html.escape(tidy(b['what']))}</p>
   {meta_html}
