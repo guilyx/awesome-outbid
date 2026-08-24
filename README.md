@@ -1,117 +1,24 @@
 # Awesome Outbid [![Awesome](https://awesome.re/badge-flat2.svg)](https://awesome.re)
 
-> Best practices, reference code, and a field guide for building pay-to-rank
-> leaderboards — the [outbid.lol](https://outbid.lol) genre.
+> Every pay-to-rank board from the [outbid.lol](https://outbid.lol) wave, and what
+> each one actually changed.
 
-On 19 August 2026, Jonathan Wilke shipped a leaderboard in a three-hour coding
-sprint. One rule: pay money, rank higher. Within 65 hours it had taken
-**$139,041** across ~900 listings from **1.1M+ visitors**, broken its analytics
-provider, attracted a six-figure acquisition offer, and spawned a few hundred
-clones.
+**➜ [Browse the list on the site](https://guilyx.github.io/awesome-outbid/)** —
+searchable, filterable, grouped by mechanic.
 
-The mechanic is four lines of SQL. Everything that makes one of these boards
-survive contact with real money — idempotent payments, a sort that does not
-shuffle, a URL that cannot be swapped for a phishing page after it reaches #1,
-a refund policy written before the first dispute — is not.
+outbid.lol turned a three-hour build into **$139,041 in 65 hours**, 1.1M visitors
+and a few hundred clones. This is the field guide to all of them — plus eight
+guides on building one that survives contact with real money.
 
-This repo is that missing half.
-
-**📖 Read it as a site: <https://guilyx.github.io/awesome-outbid/>**
-— the same content with a searchable, filterable board directory.
-
-## Contents
-
-- [Start here](#start-here)
-- [Reference implementation](#reference-implementation)
-- [The ten rules](#the-ten-rules)
-- [The original](#the-original)
-- [The boards](#the-boards)
-- [Boilerplates and tooling](#boilerplates-and-tooling)
-- [Writeups and analysis](#writeups-and-analysis)
-- [Anti-patterns](#anti-patterns)
-- [Contributing](#contributing)
-- [The site](#the-site)
-- [License](#license)
-
-## Start here
-
-Eight guides, in the order they build on each other.
-
-| # | Guide | What it covers |
-| --- | --- | --- |
-| 1 | [Auction mechanics](best-practices/01-auction-mechanics.md) | Cumulative vs highest-bid, why you must never promise a rank at checkout, total sort orders, variants |
-| 2 | [Payments and webhooks](best-practices/02-payments.md) | Signature verification, double idempotency, status codes, chargebacks, payout holds |
-| 3 | [Data model and concurrency](best-practices/03-data-model.md) | Ledger-first schema, atomic increments, keyset pagination, click buffering |
-| 4 | [Surviving the spike](best-practices/04-scale-and-realtime.md) | Caching the one query, keeping payments alive under load, realtime without regret |
-| 5 | [Abuse and moderation](best-practices/05-abuse-and-moderation.md) | Post-payment bait-and-switch, SSRF, XSS, takedowns, impersonation, card testing |
-| 6 | [Legal and trust](best-practices/06-legal-and-trust.md) | Paid-placement disclosure, when a variant becomes gambling, EU/UK withdrawal rights |
-| 7 | [Launch and distribution](best-practices/07-launch-and-distribution.md) | Seeding, per-listing OG images, building in public, why cloning the domain fails |
-| 8 | [After the spike](best-practices/08-after-the-spike.md) | Decay, telling bidders the truth, three honest endgames, obligations that outlive the hype |
-
-## Reference implementation
-
-Annotated, framework-light, readable in ten minutes. Copy the ideas, not the
-imports.
-
-- **[`reference/schema.sql`](reference/schema.sql)** — three tables, an
-  idempotent `credit_bid()` function, write-absorbing click counters, and the
-  board queries including keyset pagination and rank lookup.
-- **[`reference/create-checkout.ts`](reference/create-checkout.ts)** — amount
-  validation, SSRF-aware URL normalisation, and the rank promise deliberately
-  *not* made.
-- **[`reference/stripe-webhook.ts`](reference/stripe-webhook.ts)** — raw-body
-  signature verification, event routing, and which HTTP status code to return
-  when.
-- **[`reference/pre-launch-checklist.md`](reference/pre-launch-checklist.md)** —
-  the list to run the night before.
-
-## The ten rules
-
-1. **The webhook is the only thing that grants rank.** `success_url` is a
-   redirect, not a payment. Boards that grant on redirect can be ranked for
-   free.
-2. **Never promise a position at checkout.** The top can move between your
-   quote and the webhook. Sell a contribution; let the sort place it.
-3. **Idempotency at two levels** — event id *and* PaymentIntent id — enforced
-   by unique constraints, not by a `SELECT` first.
-4. **Money is integer cents in an append-only ledger.** Totals are derived,
-   and therefore reconcilable.
-5. **One atomic `UPDATE ... SET total = total + n`.** Read-modify-write loses
-   payments in exactly the traffic that pays your bills.
-6. **Make the sort total.** `total_cents DESC, first_paid_at ASC, id ASC`, or
-   the board reshuffles on refresh and pagination eats rows.
-7. **Lock the URL after first payment.** Otherwise you are selling the top of a
-   1M-visitor page to whoever swaps in a phishing kit.
-8. **Cache the board hard; keep the payment path off the read path's
-   resources.** Being down during the window is the one unrecoverable failure.
-9. **Publish rules, refunds, takedowns and who you are** before taking a
-   dollar. All four get asked in week one.
-10. **Traffic is the product.** The code is a weekend; cloning it copies the
-    cheap half.
-
-## The original
-
-- [outbid.lol](https://outbid.lol) — the board. Rank equals total dollars paid.
-  Whole dollars, $5 minimum, $1 increments, $999,999 cap, nothing expires,
-  nothing is refunded.
-- [outbid.lol/rules](https://outbid.lol/rules) — the entire rulebook, and a
-  good model for how short one should be.
-- [outbid.lol/about](https://outbid.lol/about) — no ads, no API keys, no
-  revenue sharing, no accounts.
-- [@jonathan_wilke](https://x.com/jonathan_wilke) — built it on his
-  [supastarter](https://supastarter.dev) boilerplate (Next.js + Postgres) in
-  three hours; posted the numbers as they happened.
+**Adding a board is one file:** edit [`data/boards.yml`](data/boards.yml) and open a
+PR. The tables below, the site, and the contributors wall all regenerate
+themselves. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## The boards
 
-Grouped by what each one actually changed — the mechanic, the audience, or the
-unit ranked. A different domain is not a variant, which is why clone forty's
-traffic curve is flat.
-
-Source of truth is [`data/boards.yml`](data/boards.yml); the tables below and the
-[site's board directory](https://guilyx.github.io/awesome-outbid/boards/) are both
-generated from it by `scripts/build.py`, and CI fails if they drift. Browse it
-with search and filters [on the site](https://guilyx.github.io/awesome-outbid/boards/).
+Grouped by what each one changed — the mechanic, the audience, or the unit
+ranked. A different domain is not a variant, which is why clone forty's traffic
+curve is flat.
 
 <!-- BEGIN GENERATED BOARDS -->
 
@@ -232,108 +139,33 @@ tables above — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 <!-- END GENERATED BOARDS -->
 
-## Boilerplates and tooling
+## Building one?
 
-- [Outbid boilerplate](https://outbid-directory.lol/outbid-boilerplate) —
-  extracted from a production board and trimmed to a starting point.
-- [Bidkit](https://www.superfa.st/outbid-lol) — hosted "launch a bidding
-  platform" tooling.
-- [supastarter](https://supastarter.dev) — the Next.js + Postgres boilerplate
-  outbid.lol itself was built on.
-- [Stripe Checkout](https://stripe.com/docs/payments/checkout) +
-  [webhook docs](https://stripe.com/docs/webhooks) — read the idempotency and
-  signature-verification sections specifically.
-- [Stripe Tax](https://stripe.com/tax) — destination-based VAT on digital
-  services is not a thing you want to hand-roll.
+Eight guides, ordered so each builds on the last — the auction rule you pick in
+01 decides the schema in 03, and the schema is what makes the webhook in 02 safe.
 
-Before reaching for a boilerplate, read
-[2. Payments](best-practices/02-payments.md) — most of these ship the happy
-path and leave idempotency, dispute evidence and URL locking to you.
+| # | Guide | # | Guide |
+| --- | --- | --- | --- |
+| 01 | [Auction mechanics](best-practices/01-auction-mechanics.md) | 05 | [Abuse and moderation](best-practices/05-abuse-and-moderation.md) |
+| 02 | [Payments and webhooks](best-practices/02-payments.md) | 06 | [Legal and trust](best-practices/06-legal-and-trust.md) |
+| 03 | [Data model and concurrency](best-practices/03-data-model.md) | 07 | [Launch and distribution](best-practices/07-launch-and-distribution.md) |
+| 04 | [Surviving the spike](best-practices/04-scale-and-realtime.md) | 08 | [After the spike](best-practices/08-after-the-spike.md) |
 
-## Writeups and analysis
+The [index](best-practices/README.md) also carries the anti-pattern table, the
+tooling list and the writeups.
 
-- [Inside outbid.lol: the pay-to-rank board taking over tech](https://automatio.ai/articles/dev-tools/inside-outbid-lol-the-pay-to-rank-board-taking-over-tech)
-  — the most technical account: concurrency handling, webhook flow, the
-  three-hour build.
-- [Why the pay-to-rank board went viral](https://www.explainx.ai/blog/outbid-lol-pay-to-rank-leaderboard-viral-august-2026)
-  — why clones with no audience earn nothing.
-- [The .lol bidding directory frenzy of August 2026](https://saascity.io/blog/lol-bidding-directory-frenzy-outbid-payluck-2026)
-  — taxonomy of the variants.
-- [A dead-simple website that made $100K in under 48 hours](https://generativeai.pub/outbid-lol-is-blowing-up-right-now-a-dead-simple-website-and-made-100k-in-less-than-48-hours-ee471942bebf)
-  — the timeline as it happened.
-- [$139,041 in 65 hours](https://www.allblogthings.com/2026/08/outbidlol-simple-pay-to-rank-website-generates-139041-in-56-hours.html)
-  — the numbers.
-- [Hacker News discussion](https://news.ycombinator.com/item?id=49385854)
-- [How outbid.lol works, and why the price only goes up](https://topple.lol/how-outbid-lol-works)
-- [Is it legit, and is a spot worth paying for?](https://topple.lol/outbid-lol-review)
-  — the bidder's side, which is worth reading if you are selling to them.
-
-## Anti-patterns
-
-Every one of these has shipped, in public, on a board taking real money.
-
-| Anti-pattern | What happens | Fix |
-| --- | --- | --- |
-| Granting rank on `success_url` | Free ranks for anyone who reads a URL | [02](best-practices/02-payments.md#only-the-webhook-grants-rank) |
-| Parsing the body before signature verification | Every webhook fails in prod, all of them pass locally | [02](best-practices/02-payments.md#verify-the-signature-against-the-raw-bytes) |
-| `SELECT` then `UPDATE` on the total | Silently lost payments under exactly the load you wanted | [03](best-practices/03-data-model.md#one-atomic-increment-no-read-modify-write) |
-| Enforcing "must beat #1" at checkout | Refund-or-lie, during your best hour | [01](best-practices/01-auction-mechanics.md#never-promise-a-rank-at-checkout) |
-| `ORDER BY total DESC` with no tiebreak | Board reshuffles on refresh; pagination duplicates and skips | [01](best-practices/01-auction-mechanics.md#make-the-sort-total-and-stable) |
-| `LIMIT/OFFSET` pagination | Listings appear twice or vanish while the board moves | [03](best-practices/03-data-model.md#keyset-pagination-never-offset) |
-| Keyset pagination with no seek predicate | Correct rows, but deep pages scan the whole index — 769 buffers vs 7, measured | [03](best-practices/03-data-model.md#the-redundant-line-is-the-whole-optimisation) |
-| Editable URL after payment | You sold the top of a viral page to a phishing kit | [05](best-practices/05-abuse-and-moderation.md#the-bait-and-switch-is-the-attack-you-will-actually-see) |
-| Re-payment resets `status` to active | Money buys its way past your own moderation | [03](best-practices/03-data-model.md#statuses-and-the-one-rule-that-must-not-be-buyable) |
-| `click_count = click_count + 1` per redirect | The hottest row becomes a global lock | [03](best-practices/03-data-model.md#do-not-increment-a-counter-per-click) |
-| Server-side favicon fetch with no IP validation | An HTTP client inside your VPC, for $5 | [05](best-practices/05-abuse-and-moderation.md#ssrf-if-you-fetch-the-url-you-are-a-proxy) |
-| Floats for money | `10.10 * 100 === 1009.9999999999999` | [01](best-practices/01-auction-mechanics.md#integer-cents-one-currency) |
-| Unrecognisable statement descriptor | The most common — and most preventable — dispute reason | [02](best-practices/02-payments.md#chargebacks-are-the-real-risk-not-fraud) |
-| No refund policy until the first refund | You improvise it under pressure, in public | [02](best-practices/02-payments.md#refunds-pick-a-policy-and-publish-it-before-you-need-one) |
-| Revenue sharing promised in launch week | Your funds are under review and you cannot pay | [02](best-practices/02-payments.md#expect-a-hold-and-do-not-promise-money-you-cannot-move) |
-| Fabricated seed bids or inflated click counts | Fraud, trivially caught by comparing board to ledger | [07](best-practices/07-launch-and-distribution.md#an-empty-board-converts-at-zero) |
-| Taking the board down after the hype | A wave of chargebacks and no credibility for the next launch | [08](best-practices/08-after-the-spike.md#three-honest-endgames) |
-| Shipping the same board on a new domain | Clone #40's traffic curve is flat | [07](best-practices/07-launch-and-distribution.md#if-you-are-cloning-change-the-audience--not-the-domain) |
-
-## Contributing
-
-Additions welcome — especially post-mortems, and especially unflattering ones.
-The genre produced hundreds of boards and almost no honest accounts of what
-happened after week one.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## The site
-
-<https://guilyx.github.io/awesome-outbid/> is built from this repo — no CMS, no
-framework, one stylesheet, no runtime dependencies.
-
-```sh
-pip install pyyaml markdown
-python3 scripts/build.py        # regenerate the README section + build _site/
-python3 scripts/check_site.py   # every internal link and anchor resolves
-python3 -m http.server -d _site 8000
-```
-
-### Adding a board is one file
-
-Edit [`data/boards.yml`](data/boards.yml) and open the PR. Nothing else:
-
-| | |
-| --- | --- |
-| **The site** | Rebuilt and deployed from `data/` on every merge to `main`. |
-| **The README tables** | Regenerated on `main` after merge by [`regenerate.yml`](.github/workflows/regenerate.yml), which commits the result. |
-| **Your PR** | The `site build` job summary previews the exact rows your entry will add, so a reviewer can check the wording without checking the branch out. |
-
-Generated files are never a merge gate here — failing a fork PR because a file
-the contributor did not touch is stale would just mean asking them to install
-Python to fix it. The PR still validates the data itself: `build.py` rejects an
-unknown group, or a board in `boards:` without `sourced: true`.
+**[`reference/`](reference/)** has the patterns as annotated code — an idempotent
+Postgres schema verified against Postgres 16, a Stripe webhook handler and
+checkout route that typecheck under `strict`, and a
+[pre-launch checklist](reference/pre-launch-checklist.md).
 
 ## Disclaimer
 
-Nothing here is legal, financial, or tax advice. Pay-to-rank boards take
-non-refundable payments from consumers, publish user-submitted links, and sit
-in a payments-risk category that gets accounts terminated. If yours is making
-real money, talk to a lawyer and to your payment processor.
+Nothing here is legal, financial, or tax advice, and nothing in the list is
+vetted or endorsed. Pay-to-rank boards take non-refundable payments from
+consumers, publish user-submitted links, and sit in a payments-risk category that
+gets accounts terminated. If yours is making real money, talk to a lawyer and to
+your payment processor.
 
 ## License
 
