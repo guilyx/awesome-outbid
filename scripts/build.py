@@ -402,7 +402,20 @@ def contributors() -> list[dict]:
             cwd=ROOT, capture_output=True, text=True, check=True,
         ).stdout
     except (subprocess.CalledProcessError, FileNotFoundError):
+        print("::warning::no git history available — contributors wall will be empty")
         return []
+
+    # A shallow checkout degrades this to whoever authored the tip commit, which
+    # looks like a working page rather than a broken one. Say so loudly.
+    shallow = subprocess.run(
+        ["git", "rev-parse", "--is-shallow-repository"],
+        cwd=ROOT, capture_output=True, text=True,
+    ).stdout.strip()
+    if shallow == "true":
+        print(
+            "::warning::shallow git clone — the contributors wall will be "
+            "incomplete. Check out with fetch-depth: 0."
+        )
 
     people: dict[str, dict] = {}
     for line in out.splitlines():
@@ -763,7 +776,12 @@ def build_site(data: dict, base: str) -> None:
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
 
     built = sorted(p.relative_to(OUT).as_posix() for p in OUT.rglob("*.html"))
-    print(f"built {len(built)} pages into {OUT.relative_to(ROOT)}/")
+    people = contributors()
+    print(
+        f"built {len(built)} pages into {OUT.relative_to(ROOT)}/ "
+        f"({len(data['boards'])} boards, {len(people)} contributors: "
+        f"{', '.join(c.get('login') or c['name'] for c in people) or 'none'})"
+    )
     for p in built:
         print(f"  {p}")
 
