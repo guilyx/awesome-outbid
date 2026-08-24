@@ -117,7 +117,7 @@ with search and filters [on the site](https://guilyx.github.io/awesome-outbid/bo
 
 <!-- Generated from data/boards.yml by scripts/build.py. Do not edit by hand. -->
 
-Snapshot: **2026-08-23** · **29** boards described · **25** named only.
+Snapshot: **2026-08-23** · **30** boards described · **25** named only.
 
 Compiled from press coverage, the clone directories, and search results indexing X posts from the launch week. x.com itself could not be read directly, so quoted numbers are those the sources report, not figures we measured.
 
@@ -191,6 +191,14 @@ Boards where the thing you spend is not a bid, or the thing you win is not a row
 | [payluck.lol](https://payluck.lol) | listings | Randomised coupon codes against locked prices on a limited board. Cost is capped and known upfront and your position cannot be outbid — which also means the only variable left is whether the site itself gets any attention. |
 | [outlike.lol](https://www.outlike.lol) | sites | Likes are the only currency — the most-liked announcement tweet holds #1, and listing is free. The one board in the wave that takes no money at all. |
 | [lamborghini.lol](https://lamborghini.lol) | panels on a physical car | SaaS companies buy panel space on a real Lamborghini Urus. Bid $50k, wear a quarter of the car. The mechanic applied to an object rather than a row. |
+
+### Earned multipliers
+
+Money sets the floor and referred visitors multiply it, so a small payment that brings an audience outranks a large one that brings none. The only direction where the listings themselves supply the board's traffic rather than the operator having to.
+
+| Board | Ranks | What it does |
+| --- | --- | --- |
+| [outnumber.lol](https://outnumber.lol) | products, apps and X profiles | Rank is the amount paid multiplied by the unique visitors the listing itself referred, so $10 that brought 200 people outranks $25 that brought nobody. Every 100 referred visitors adds 1x, capped at 3x, and money alone cannot reach the top. A visitor counts once per listing forever, crawlers and link previews never count, and a listing can bank at most 250 a day. *(2026-08-24)* |
 
 ### Meta — boards and directories of boards
 
