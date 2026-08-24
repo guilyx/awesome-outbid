@@ -180,6 +180,7 @@ Same mechanic, different audience. The most durable direction, because a niche b
 | [topnewsletters.lol](https://www.topnewsletters.lol) | newsletters | Bid for the inbox. Your amount decides the rank, and paying under the #1 price still places you wherever that bid can reach. |
 | [topseos.lol](https://topseos.lol) | SEO experts, agencies and apps | A pay-to-rank leaderboard for the SEO industry, aimed at its own buyers. |
 | [vibewar.lol](https://vibewar.lol) | vibecoded apps and SaaS | A battlefield for vibecoded apps and SaaS. Founders pay to rank; you outbid them to take their spot. |
+| [topless.lol](https://topless.lol) | adult creator links | The adult-creator edition — OnlyFans, Fansly and fan-page links instead of startups. Two things differ from the original: every rank is a distinct dollar amount, so a bid that is already taken is refused rather than tie-broken by timestamp, and the board is quoted in USD while Brazilian buyers are charged in BRL at a fixed rate. *(2026-08-24)* |
 | [pujalo.lol](https://pujalo.lol) | products, LATAM | The LATAM edition — Spanish, and pesos. The clearest example of the one clone direction that reliably works: same mechanic, an audience the original was never going to reach. |
 
 ### Other currencies and stunts
