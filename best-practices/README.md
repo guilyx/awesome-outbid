@@ -56,3 +56,64 @@ The patterns above, as code you can read in ten minutes:
   the list to run through the night before.
 
 They are illustrative, not a framework. Copy the ideas, not the imports.
+
+## Anti-patterns
+
+Every one of these has shipped, in public, on a board taking real money.
+
+| Anti-pattern | What happens | Fix |
+| --- | --- | --- |
+| Granting rank on `success_url` | Free ranks for anyone who reads a URL | [02](02-payments.md#only-the-webhook-grants-rank) |
+| Parsing the body before signature verification | Every webhook fails in prod, all of them pass locally | [02](02-payments.md#verify-the-signature-against-the-raw-bytes) |
+| `SELECT` then `UPDATE` on the total | Silently lost payments under exactly the load you wanted | [03](03-data-model.md#one-atomic-increment-no-read-modify-write) |
+| Enforcing "must beat #1" at checkout | Refund-or-lie, during your best hour | [01](01-auction-mechanics.md#never-promise-a-rank-at-checkout) |
+| `ORDER BY total DESC` with no tiebreak | Board reshuffles on refresh; pagination duplicates and skips | [01](01-auction-mechanics.md#make-the-sort-total-and-stable) |
+| `LIMIT/OFFSET` pagination | Listings appear twice or vanish while the board moves | [03](03-data-model.md#keyset-pagination-never-offset) |
+| Keyset pagination with no seek predicate | Correct rows, but deep pages scan the whole index — 769 buffers vs 7, measured | [03](03-data-model.md#the-redundant-line-is-the-whole-optimisation) |
+| Editable URL after payment | You sold the top of a viral page to a phishing kit | [05](05-abuse-and-moderation.md#the-bait-and-switch-is-the-attack-you-will-actually-see) |
+| Re-payment resets `status` to active | Money buys its way past your own moderation | [03](03-data-model.md#statuses-and-the-one-rule-that-must-not-be-buyable) |
+| `click_count = click_count + 1` per redirect | The hottest row becomes a global lock | [03](03-data-model.md#do-not-increment-a-counter-per-click) |
+| Server-side favicon fetch with no IP validation | An HTTP client inside your VPC, for $5 | [05](05-abuse-and-moderation.md#ssrf-if-you-fetch-the-url-you-are-a-proxy) |
+| Floats for money | `10.10 * 100 === 1009.9999999999999` | [01](01-auction-mechanics.md#integer-cents-one-currency) |
+| Unrecognisable statement descriptor | The most common — and most preventable — dispute reason | [02](02-payments.md#chargebacks-are-the-real-risk-not-fraud) |
+| No refund policy until the first refund | You improvise it under pressure, in public | [02](02-payments.md#refunds-pick-a-policy-and-publish-it-before-you-need-one) |
+| Revenue sharing promised in launch week | Your funds are under review and you cannot pay | [02](02-payments.md#expect-a-hold-and-do-not-promise-money-you-cannot-move) |
+| Fabricated seed bids or inflated click counts | Fraud, trivially caught by comparing board to ledger | [07](07-launch-and-distribution.md#an-empty-board-converts-at-zero) |
+| Taking the board down after the hype | A wave of chargebacks and no credibility for the next launch | [08](08-after-the-spike.md#three-honest-endgames) |
+| Shipping the same board on a new domain | Clone #40's traffic curve is flat | [07](07-launch-and-distribution.md#if-you-are-cloning-change-the-audience--not-the-domain) |
+
+## Boilerplates and tooling
+
+- [Outbid boilerplate](https://outbid-directory.lol/outbid-boilerplate) —
+  extracted from a production board and trimmed to a starting point.
+- [Bidkit](https://www.superfa.st/outbid-lol) — hosted "launch a bidding
+  platform" tooling.
+- [supastarter](https://supastarter.dev) — the Next.js + Postgres boilerplate
+  outbid.lol itself was built on.
+- [Stripe Checkout](https://stripe.com/docs/payments/checkout) +
+  [webhook docs](https://stripe.com/docs/webhooks) — read the idempotency and
+  signature-verification sections specifically.
+- [Stripe Tax](https://stripe.com/tax) — destination-based VAT on digital
+  services is not a thing you want to hand-roll.
+
+Before reaching for a boilerplate, read
+[2. Payments](02-payments.md) — most of these ship the happy
+path and leave idempotency, dispute evidence and URL locking to you.
+
+## Writeups and analysis
+
+- [Inside outbid.lol: the pay-to-rank board taking over tech](https://automatio.ai/articles/dev-tools/inside-outbid-lol-the-pay-to-rank-board-taking-over-tech)
+  — the most technical account: concurrency handling, webhook flow, the
+  three-hour build.
+- [Why the pay-to-rank board went viral](https://www.explainx.ai/blog/outbid-lol-pay-to-rank-leaderboard-viral-august-2026)
+  — why clones with no audience earn nothing.
+- [The .lol bidding directory frenzy of August 2026](https://saascity.io/blog/lol-bidding-directory-frenzy-outbid-payluck-2026)
+  — taxonomy of the variants.
+- [A dead-simple website that made $100K in under 48 hours](https://generativeai.pub/outbid-lol-is-blowing-up-right-now-a-dead-simple-website-and-made-100k-in-less-than-48-hours-ee471942bebf)
+  — the timeline as it happened.
+- [$139,041 in 65 hours](https://www.allblogthings.com/2026/08/outbidlol-simple-pay-to-rank-website-generates-139041-in-56-hours.html)
+  — the numbers.
+- [Hacker News discussion](https://news.ycombinator.com/item?id=49385854)
+- [How outbid.lol works, and why the price only goes up](https://topple.lol/how-outbid-lol-works)
+- [Is it legit, and is a spot worth paying for?](https://topple.lol/outbid-lol-review)
+  — the bidder's side, which is worth reading if you are selling to them.

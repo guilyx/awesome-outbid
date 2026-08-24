@@ -33,6 +33,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # contributors() reads `git log`; a shallow clone knows one commit and
+          # would render a wall of one person forever.
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'

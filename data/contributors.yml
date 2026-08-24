@@ -1,0 +1,20 @@
+# Who gets shown on the site's contributors wall.
+#
+# The list itself is derived from `git log` at build time -- no API call, no
+# token, nothing to keep in sync by hand. This file only carries the two things
+# git cannot tell us:
+#
+#   logins   email -> GitHub username, so we can link and show an avatar.
+#            An unmapped contributor still appears, just without either.
+#   exclude  emails whose commits are automation rather than people.
+
+logins:
+  erwin.lejeune15@gmail.com: guilyx
+  marcelomar21@gmail.com: marcelomar21
+  adarsh.subham55@gmail.com: Addy2055
+
+exclude:
+  # The regenerate.yml bot that rewrites the README board tables.
+  - 41898282+github-actions[bot]@users.noreply.github.com
+  # Tooling identities that ended up on a merge commit.
+  - noreply@anthropic.com
