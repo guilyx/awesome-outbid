@@ -285,6 +285,16 @@ boards:
       SaaS companies buy panel space on a real Lamborghini Urus. Bid $50k, wear
       a quarter of the car. The mechanic applied to an object rather than a row.
     sourced: true
+  - name: isopod.lol
+    url: https://isopod.lol
+    group: other
+    ranks: advertising plates on a mascot
+    what: >-
+      Eight fixed plates live on one isopod instead of a ranked list. Each plate
+      can be stolen for its last paid price plus $10 during a 14-day season,
+      then the final owners remain on the mascot for 90 days.
+    by: "@SX0OT"
+    sourced: true
 
   # -- meta -------------------------------------------------------------------
   - name: outbidstory.lol
