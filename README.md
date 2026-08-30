@@ -24,7 +24,7 @@ curve is flat.
 
 <!-- Generated from data/boards.yml by scripts/build.py. Do not edit by hand. -->
 
-Snapshot: **2026-08-23** · **32** boards described · **25** named only.
+Snapshot: **2026-08-23** · **33** boards described · **25** named only.
 
 Compiled from press coverage, the clone directories, and search results indexing X posts from the launch week. x.com itself could not be read directly, so quoted numbers are those the sources report, not figures we measured.
 
@@ -89,6 +89,7 @@ Same mechanic, different audience. The most durable direction, because a niche b
 | [vibewar.lol](https://vibewar.lol) | vibecoded apps and SaaS | A battlefield for vibecoded apps and SaaS. Founders pay to rank; you outbid them to take their spot. |
 | **NSFW** [topless.lol](https://topless.lol) | adult creator links | The adult-creator edition — OnlyFans, Fansly and fan-page links instead of startups. Two things differ from the original: every rank is a distinct dollar amount, so a bid that is already taken is refused rather than tie-broken by timestamp, and the board is quoted in USD while Brazilian buyers are charged in BRL at a fixed rate. *(2026-08-24)* |
 | [pujalo.lol](https://pujalo.lol) | products, LATAM | The LATAM edition — Spanish, and pesos. The clearest example of the one clone direction that reliably works: same mechanic, an audience the original was never going to reach. |
+| [bidboard.games](https://bidboard.games) | game sites, servers, wikis and tools | The games edition — playable games, servers, guide sites, wikis and game tools, in thirty categories. The listing total is capped at $500, so the top of the board cannot be bought outright; below that it is the original mechanic, payments accumulate and nothing expires, and anything listed in the last 24 hours holds a guaranteed row whatever it paid. |
 
 ### Other currencies and stunts
 
