@@ -24,7 +24,7 @@ curve is flat.
 
 <!-- Generated from data/boards.yml by scripts/build.py. Do not edit by hand. -->
 
-Snapshot: **2026-08-23** · **31** boards described · **25** named only.
+Snapshot: **2026-08-23** · **32** boards described · **25** named only.
 
 Compiled from press coverage, the clone directories, and search results indexing X posts from the launch week. x.com itself could not be read directly, so quoted numbers are those the sources report, not figures we measured.
 
@@ -99,6 +99,7 @@ Boards where the thing you spend is not a bid, or the thing you win is not a row
 | [payluck.lol](https://payluck.lol) | listings | Randomised coupon codes against locked prices on a limited board. Cost is capped and known upfront and your position cannot be outbid — which also means the only variable left is whether the site itself gets any attention. |
 | [outlike.lol](https://www.outlike.lol) | sites | Likes are the only currency — the most-liked announcement tweet holds #1, and listing is free. The one board in the wave that takes no money at all. |
 | [lamborghini.lol](https://lamborghini.lol) | panels on a physical car | SaaS companies buy panel space on a real Lamborghini Urus. Bid $50k, wear a quarter of the car. The mechanic applied to an object rather than a row. |
+| [isopod.lol](https://isopod.lol) | advertising plates on a mascot | Eight fixed plates live on one isopod instead of a ranked list. Each plate can be stolen for its last paid price plus $10 during a 14-day season, then the final owners remain on the mascot for 90 days. *by @SX0OT* |
 
 ### Earned multipliers
 
