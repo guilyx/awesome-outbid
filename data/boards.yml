@@ -257,6 +257,18 @@ boards:
       original was never going to reach.
     sourced: true
 
+  - name: bidboard.games
+    url: https://bidboard.games
+    group: niche
+    ranks: game sites, servers, wikis and tools
+    what: >-
+      The games edition — playable games, servers, guide sites, wikis and game
+      tools, in thirty categories. The listing total is capped at $500, so the
+      top of the board cannot be bought outright; below that it is the original
+      mechanic, payments accumulate and nothing expires, and anything listed in
+      the last 24 hours holds a guaranteed row whatever it paid.
+    sourced: true
+
   # -- other ------------------------------------------------------------------
   - name: payluck.lol
     url: https://payluck.lol
