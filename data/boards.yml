@@ -204,6 +204,14 @@ boards:
     sourced: true
 
   # -- niche ------------------------------------------------------------------
+    - name: listingbott.com
+    url: https://listingbott.com/
+    group: niche
+    ranks: SaaS and directory listings
+    what: >-
+      A tool that helps SaaS founders list their products, tools, and websites
+      across multiple online directories to build visibility and backlinks.
+    sourced: true
   - name: xbid.lol
     url: https://xbid.lol
     group: niche
