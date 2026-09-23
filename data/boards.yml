@@ -269,6 +269,18 @@ boards:
       the last 24 hours holds a guaranteed row whatever it paid.
     sourced: true
 
+  - name: whopaidmost.com
+    url: https://whopaidmost.com
+    group: niche
+    ranks: businesses
+    what: >-
+      A business edition with a public money trail: every payment is listed on
+      a /payments ledger and a /stats page, a Hall of Kings records each #1 and
+      how long it reigned, and a monthly board restarts the race every month
+      alongside the all-time one. Entries carry a country flag and can be
+      filtered by country; $1 gets a spot and paying more than #1 takes it.
+    sourced: true
+
   # -- other ------------------------------------------------------------------
   - name: payluck.lol
     url: https://payluck.lol
