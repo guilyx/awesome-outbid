@@ -202,6 +202,17 @@ boards:
       Outbid the competition to claim the #1 sovereign spot in any country on
       an interactive world map. 190-odd #1 spots instead of one.
     sourced: true
+  - name: outlol.bid
+    url: https://outlol.bid
+    group: map
+    ranks: ad surfaces in a football game's world
+    what: >-
+      The board is a free multiplayer football game. Stadium wraps, pitch
+      hoardings, city parcels and satellites in its 3D world are the rows: each
+      opens at $2, beating the standing bid by $2 takes it for 30 days, and what
+      a holder paid stays as credit toward the next bid.
+    by: Ege Evirgen
+    sourced: true
 
   # -- niche ------------------------------------------------------------------
   - name: xbid.lol
