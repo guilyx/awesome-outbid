@@ -24,7 +24,7 @@ curve is flat.
 
 <!-- Generated from data/boards.yml by scripts/build.py. Do not edit by hand. -->
 
-Snapshot: **2026-08-23** · **34** boards described · **25** named only.
+Snapshot: **2026-08-23** · **35** boards described · **25** named only.
 
 Compiled from press coverage, the clone directories, and search results indexing X posts from the launch week. x.com itself could not be read directly, so quoted numbers are those the sources report, not figures we measured.
 
@@ -76,6 +76,7 @@ Position becomes a place instead of a row number. Scarcity is built into the geo
 | --- | --- | --- |
 | [warmap.lol](https://warmap.lol) | companies, by country | Your company colour appears on the world map until someone pays 1.5x to take it from you. No refunds. The multiplier is the whole design. |
 | [mapbid.lol](https://mapbid.lol) | countries | Outbid the competition to claim the #1 sovereign spot in any country on an interactive world map. 190-odd #1 spots instead of one. |
+| [outlol.bid](https://outlol.bid) | ad surfaces in a football game's world | The board is a free multiplayer football game. Stadium wraps, pitch hoardings, city parcels and satellites in its 3D world are the rows: each opens at $2, beating the standing bid by $2 takes it for 30 days, and what a holder paid stays as credit toward the next bid. *by Ege Evirgen* |
 
 ### Different unit ranked
 
